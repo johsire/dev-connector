@@ -7,10 +7,10 @@ const posts = require('./routes/api/posts');
 
 const app = express();
 
-// DB Config:
+// DB Config
 const db = require('./config/keys').mongoURI;
 
-// Connect to MongoBD Using Mongoose;
+// Connect to MongoBD Using Mongoose
 mongoose
       .connect(db, { useNewUrlParser: true })
       .then(() => console.log('MongoDB Connected'))
@@ -18,7 +18,7 @@ mongoose
 
 app.get('/', (req, res) => res.send('Hello Utah!'));
 
-// Use Routes:
+// Use Routes
 app.use('api/users', users);
 app.use('api/profile', profile);
 app.use('api/posts', posts);
