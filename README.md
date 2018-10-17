@@ -1,4 +1,4 @@
-# devs-connect
+# Devs-Connect
 MERN Stack - Front Back-Full Stack-React-Redux-Node.Js
 
 This is a great chance to explore and gain a deeper understanding of the programming language by building an exciting app.
