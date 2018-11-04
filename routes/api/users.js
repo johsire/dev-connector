@@ -25,7 +25,7 @@ router.get("/test", (req, res) => res.json({ msg: "Users Works!" }));
 // @desc    Register user
 // @access  Public
 router.post('/register', (req, res) => {
-  // 1st chack if user's email exists using Mongoose
+  // 1st chack if user's email exists using Mongoose Methods
   User.findOne({ email: req.body.email })
       .then(user => {
          if (user) {
@@ -41,6 +41,7 @@ router.post('/register', (req, res) => {
             d: 'mm'
           });
 
+          // You use 'new' then the 'nodel-name' when creating a resource with Mongoose, then pass in the data as an object;
           const newUser = new User({
             name: req.body.name,
             email: req.body.email,

@@ -1,5 +1,6 @@
 
 const Validator = require('validator');
+import isEmpty from './is-empty';
 
 module.exports = function validateRegisterInput(data) {
  let errors = {};
@@ -10,6 +11,6 @@ module.exports = function validateRegisterInput(data) {
 
  return {
   errors,
-  isValid: errors
+  isValid: isEmpty(errors)
  }
 }
