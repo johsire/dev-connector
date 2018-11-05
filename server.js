@@ -1,8 +1,7 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const passport =require('passport');
+const passport = require('passport');
 
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
@@ -11,7 +10,9 @@ const posts = require('./routes/api/posts');
 const app = express();
 
 //  Body Parser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+      extended: false
+}));
 app.use(bodyParser.json());
 
 // DB Config
@@ -19,7 +20,9 @@ const db = require('./config/keys').mongoURI;
 
 // Connect to MongoBD Using Mongoose
 mongoose
-      .connect(db, { useNewUrlParser: true })
+      .connect(db, {
+            useNewUrlParser: true
+      })
       .then(() => console.log('MongoDB Connected'))
       .catch(err => console.log(err, 'MongoDB Error!'));
 
