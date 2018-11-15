@@ -60,6 +60,7 @@ router.post(
 		session: false,
 	}),
 	(req, res) => {
+
 		// Get Fileds ------------------------------->
 		const profileFields = {};
 		profileFields.user = req.user.id;
@@ -75,7 +76,7 @@ router.post(
 		if (typeof req.body.skills !== 'undefined') {
 			profileFields.skills = req.body.skills.split(',');
 		}
-
+		
 		// Social Media Connections ----------------------->
 		profileFields.social = {};
 		if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
