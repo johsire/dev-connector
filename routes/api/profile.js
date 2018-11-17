@@ -2,6 +2,9 @@
 // (location, bio, experiences, education, social network links)
 // Profile model and User's model
 
+// Load Validation // -->-------------------->>>>
+const validateProfileInput = require('../../validation/profile');
+
 //-----------> Installed Dependencies-------------->
 const express = require('express');
 const router = express.Router();
@@ -50,6 +53,12 @@ router.get(
 	}
 );
 
+// ---------------> GET/ Get Profile by handle ------------------------------>
+// @route   GET: api/profile/handle/:handle
+// @desc    Get Profile by handle  
+// @access  Public
+
+
 // ---------------> POST/ Create or Edit New User Profile --------------------->
 // @route   POST: api/profile
 // @desc    Create or Edit User Profile
@@ -60,6 +69,13 @@ router.post(
 		session: false,
 	}),
 	(req, res) => {
+		const { errors, isValid } = validateProfileInput(req.body);
+
+		// Check Validation
+		if (!isValid) {
+			// Return any errors with 400 status
+			return res.status(400).json(errors);
+		}
 
 		// Get Fileds ------------------------------->
 		const profileFields = {};
@@ -76,7 +92,7 @@ router.post(
 		if (typeof req.body.skills !== 'undefined') {
 			profileFields.skills = req.body.skills.split(',');
 		}
-		
+
 		// Social Media Connections ----------------------->
 		profileFields.social = {};
 		if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
@@ -89,18 +105,20 @@ router.post(
 		Profile.findOne({ user: req.user.id }).then(profile => {
 			if (profile) {
 				// Update (if they have a profile we update using the below code) ----------------------->
-				Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true }).then(profile => res.json(profile));
+				Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true }).then(profile =>
+					res.json(profile)
+				);
 			} else {
 				// Check if handle w/ same name exists: Throw an err if the handle name exists; ----------------->
 				Profile.findOne({ handle: profileFields.handle }).then(profile => {
 					if (profile) {
-						errors.handle = "That handle already exisits";
+						errors.handle = 'That handle already exisits';
 						res.status(400).json(errors);
 					}
 
 					// Create the new handle/ user profile if the handle name is NOT found; --------------------------->
 					// Save New Profile ------------------------------------------------------------------------------->
-					new Profile(profileFields).save().then(profile => res.json(profile))
+					new Profile(profileFields).save().then(profile => res.json(profile));
 				});
 			}
 		});
