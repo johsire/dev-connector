@@ -21,6 +21,7 @@ const User = require('../../models/User');
 // @route   GET: api/profile/test
 // @desc    Tests profile route
 // @access  Public
+
 router.get('/test', (req, res) =>
 	res.json({
 		msg: 'Profile Works!',
@@ -31,6 +32,7 @@ router.get('/test', (req, res) =>
 // @route   GET: api/profile
 // @desc    Get Current User Profile
 // @access  Private
+
 router.get(
 	'/',
 	passport.authenticate('jwt', {
@@ -57,6 +59,7 @@ router.get(
 // @route   GET: api/profile/handle/:handle
 // @desc    Get Profile by handle  
 // @access  Public
+
 router.get('/handle/:handle', (req, res) => {
 	const errors = {};
 
@@ -77,6 +80,7 @@ router.get('/handle/:handle', (req, res) => {
 // @route   GET: api/profile/user/:user_id
 // @desc    Get Profile by User ID  
 // @access  Public
+
 router.get('/user/:user_id', (req, res) => {
 	const errors = {};
 
@@ -97,6 +101,7 @@ router.get('/user/:user_id', (req, res) => {
 // @route   POST: api/profile
 // @desc    Create or Edit User Profile
 // @access  Private
+
 router.post(
 	'/',
 	passport.authenticate('jwt', {
