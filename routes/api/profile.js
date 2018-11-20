@@ -4,6 +4,7 @@
 
 // Load Validation // -->-------------------->>>>
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
 
 //-----------> Installed Dependencies-------------->
 const express = require('express');
@@ -193,6 +194,14 @@ router.post(
 // @access  Private
 
 router.post('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+	const { errors, isValid } = validateExperienceInput(req.body);
+
+	// Check Validation 
+	if (!isValid) {
+		// Return any errors with 400 status 
+		return res.status(400).json(errors);
+	}
+
 	Profile.findOne({ user: req.user.id })
 			.then(profile => {
 					const newExp = {
