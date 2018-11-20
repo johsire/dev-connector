@@ -16,7 +16,7 @@ const passport = require('passport');
 //-------------------> Load Profile Model----------------->
 const Profile = require('../../models/Profile');
 
-//-------------------> Load User Profile------------------>
+//-------------------> Load User Model------------------>
 const User = require('../../models/User');
 
 // @header  --------------------> Our Routes---------------------->
@@ -265,7 +265,8 @@ router.delete('/experience/:exp_id',
 
 		// Save
 		profile.save().then(profile => res.json(profile));
-	});
+			})
+			.catch(err => res.status(404).json(err));
 	});
 
 // @header  ----------> DELETE/ Delete Education from User Profile -------------------------------->
@@ -287,7 +288,23 @@ passport.authenticate('jwt', { session: false }), (req, res) => {
 
 	// Save
 	profile.save().then(profile => res.json(profile));
+		})
+		.catch(err => res,status(404).json(err));
 });
+
+// @header  ----------> DELETE/ Delete User and Profile -------------------------------->
+// @route   DELETE api/profile
+// @desc    Delete user & profile
+// @access  Private
+router.delete(
+	'/',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+			Profile.findOneAndRemove({ user: req.user.id })
+				.then(() => {
+					User.findOneAndRemove({ _id: req.user.id }).then(() =>
+						res.json({ success: true }));
+				});
 });
 
 module.exports = router;
